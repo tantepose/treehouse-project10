@@ -29,9 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  //   loans.belongsTo(models.books, {foreignKey: 'book_id'});
-  //   loans.belongsTo(models.patrons, {foreignKey: 'patron_id'});
-  // };
   return loans;
 };
   

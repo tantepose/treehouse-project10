@@ -16,9 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     underscored: true
   });
+  
   patrons.associate = function(models) {
     // associate patrons with loans
     patrons.hasMany(models.loans);
   };
+
   return patrons;
 };

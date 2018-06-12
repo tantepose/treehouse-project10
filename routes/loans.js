@@ -9,14 +9,19 @@ var loans = require('../models').loans;
 /* GET books page. */
 router.get('/', function(req, res, next) {
   loans.findAll({
-    include: [{
+    include: [
+      {
         model: patrons,
-        as: "patron"},
-        {model: books,
-          as: "book"}
-      ]
+        as: "patron"
+      },
+      {
+        model: books,
+        as: "book"
+      }]
+
   }).then(function (loans) {
     res.render("loans", {loans: loans});
+
   }).catch(function(error){
     console.error("Error:", error);
     res.send(500, error);
