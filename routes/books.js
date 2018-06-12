@@ -1,16 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var books = require("../models").books;
+var db = require("../models/index.js");
 
 /* GET books page. */
 router.get('/', function(req, res, next) {
-  console.log("GET all books");
+  console.info("GET all books");
 
-  books.findAll({order: [["first_published", "DESC"]]}).then(function(books){
-    console.log("Sucsess, rendering.");
+  db.books.findAll({order: [["first_published", "DESC"]]}).then(function(books){
+    console.info("Sucsess, rendering.");
     res.render("books", {books: books});
   }).catch(function(error){
-      console.log("Error:", error);
+      console.error("Error:", error);
       res.send(500, error);
    });
 });

@@ -1,16 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var patrons = require("../models").patrons;
+var db = require("../models/index.js");
 
 /* GET books page. */
 router.get('/', function(req, res, next) {
-  console.log("GET all patrons");
+  console.info("GET all patrons");
 
-  patrons.findAll({order: [["id", "DESC"]]}).then(function(patrons){
-    console.log("Sucsess, rendering patrons");
+  db.patrons.findAll({order: [["id", "DESC"]]}).then(function(patrons){
+    console.info("Sucsess, rendering patrons");
     res.render("patrons", {patrons: patrons});
   }).catch(function(error){
-      console.log("Error:", error);
+      console.error("Error:", error);
       res.send(500, error);
    });
 });

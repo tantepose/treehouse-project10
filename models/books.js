@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
   books.associate = function(models) {
-    // associations can be defined here
+    // associate books with loans
+    books.hasOne(models.loans);
   };
   return books;
 };

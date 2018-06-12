@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
   patrons.associate = function(models) {
-    // associations can be defined here
+    // associate patrons with loans
+    patrons.hasMany(models.loans);
   };
   return patrons;
 };

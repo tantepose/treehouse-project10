@@ -13,8 +13,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false
   });
+
   loans.associate = function(models) {
-    // associations can be defined here
+    // associating loans with books and patrons
+    loans.belongsTo(models.books, {foreignKey: 'book_id'});
+    loans.belongsTo(models.patrons, {foreignKey: 'patron_id'});
   };
+
   return loans;
 };
