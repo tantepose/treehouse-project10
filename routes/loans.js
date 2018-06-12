@@ -11,30 +11,16 @@ router.get('/', function(req, res, next) {
   loans.findAll({
     include: [{
         model: patrons,
-        model: books
-      }]
+        as: "patron"},
+        {model: books,
+          as: "book"}
+      ]
   }).then(function (loans) {
     res.render("loans", {loans: loans});
+  }).catch(function(error){
+    console.error("Error:", error);
+    res.send(500, error);
   });
 });
 
 module.exports = router;
-
-// Executing (default): SELECT `loans`.`id`, 
-// `loans`.`book_id`, 
-// `loans`.`patron_id`, 
-// `loans`.`loaned_on`, 
-// `loans`.`return_by`, 
-// `loans`.`returned_on`, 
-// `loans`.`bookId`, 
-// `loans`.`patronId`, 
-
-// `book`.`id` AS `book.id`, 
-// `book`.`title` AS `book.title`, 
-// `book`.`author` AS `book.author`, 
-// `book`.`genre` AS `book.genre`, 
-// `book`.`first_published` AS `book.first_published` 
-// FROM `loans` AS `loans` 
-// LEFT OUTER JOIN `books` AS `book` ON `loans`.`book_id` = `book`.`id`;
-
-// Unhandled rejection SequelizeDatabaseError: SQLITE_ERROR: no such column: loans.bookId

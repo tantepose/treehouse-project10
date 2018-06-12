@@ -11,14 +11,27 @@ module.exports = (sequelize, DataTypes) => {
     return_by: DataTypes.DATE,
     returned_on: DataTypes.DATE
   }, {
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true
   });
 
   loans.associate = function(models) {
     // associating loans with books and patrons
-    loans.belongsTo(models.books, {foreignKey: 'book_id'});
-    loans.belongsTo(models.patrons, {foreignKey: 'patron_id'});
+    loans.belongsTo(models.books, {
+      as: 'book',
+      foreignKey: 'book_id'
+    });
+  
+    loans.belongsTo(models.patrons, {
+      as: 'patron',
+      foreignKey: 'patron_id'
+    });
   };
 
+  //   loans.belongsTo(models.books, {foreignKey: 'book_id'});
+  //   loans.belongsTo(models.patrons, {foreignKey: 'patron_id'});
+  // };
   return loans;
 };
+  

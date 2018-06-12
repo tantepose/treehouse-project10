@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     library_id: DataTypes.STRING,
     zip_code: DataTypes.INTEGER
   }, {
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true
   });
   patrons.associate = function(models) {
     // associate patrons with loans

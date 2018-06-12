@@ -21,8 +21,8 @@ block content
         tbody
             each loan in loans
                 tr
-                    td= loan.books.title
-                    td= loan.patrons.first_name + " " + loan.patrons.last_name
+                    td= loan.book.title
+                    td= loan.patron.first_name + " " +  loan.patron.last_name
                     td= loan.loaned_on
                     td= loan.return_by
                     td= loan.returned_on
