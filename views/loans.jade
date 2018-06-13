@@ -6,9 +6,9 @@ block content
         a.button(href='new_loan.html') Create New Loan
     p
         Filters 
-        a(href='all_loans.html') All | 
-        a(href='overdue_loans.html') Overdue | 
-        a(href='checked_loans.html') Checked Out
+        a(href='/loans') All | 
+        a(href='/loans?filter=overdue') Overdue | 
+        a(href='/loans?filter=checked_out') Checked Out
     table
         thead
             tr
@@ -21,10 +21,12 @@ block content
         tbody
             each loan in loans
                 tr
-                    td= loan.book.title
-                    td= loan.patron.first_name + " " +  loan.patron.last_name
+                    td 
+                        a(href='/books?id=' + loan.book.id)= loan.book.title
+                    td 
+                        a(href='/patrons?id=' + loan.patron.id)= loan.patron.first_name + " " +  loan.patron.last_name
                     td= loan.loaned_on
                     td= loan.return_by
                     td= loan.returned_on
                     td
-                        a.button(href='return_book.html') Return Book
+                        a.button(href='/books?id=' + loan.book.id) Return Book
