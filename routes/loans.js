@@ -1,21 +1,17 @@
 var express = require('express');
 var router = express.Router();
-// var db = require("../models/index.js");
+var db = require("../models/index.js");
 
-var patrons = require('../models').patrons;
-var books = require('../models').books;
-var loans = require('../models').loans;
-
-/* GET books page. */
+// GET all loans
 router.get('/', function(req, res, next) {
-  loans.findAll({
+  db.loans.findAll({
     include: [
       {
-        model: patrons,
+        model: db.patrons,
         as: "patron"
       },
       {
-        model: books,
+        model: db.books,
         as: "book"
       }]
 

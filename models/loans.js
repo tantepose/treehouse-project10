@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true
   });
 
+  // associating loans with books and patrons (couldn't do this without aliases (as))
   loans.associate = function(models) {
-    // associating loans with books and patrons
     loans.belongsTo(models.books, {
       as: 'book',
       foreignKey: 'book_id'

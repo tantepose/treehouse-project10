@@ -14,8 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     underscored: true
   });
+
+  // associate books with loans
   books.associate = function(models) {
-    // associate books with loans
     books.hasOne(models.loans);
   };
   return books;
