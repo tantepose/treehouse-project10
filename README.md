@@ -1,3 +1,12 @@
+## Treehouse Fullstack Javascript Techdegree, project 10
+# Build a Library Manager
+### by Ole Petter Baugerød Stokke
+
+You've been tasked with creating a library management system for a small library. The librarian has been using a simple sqlite database and has been entering data in manually. The librarian wants a more intuitive way to handle the library's books, patrons and loans.
+
+You'll be given static HTML designs, a set of requirements and the existing SQLite database. You'll be required to implement a dynamic website using Express, Pug, and the SQL ORM Sequelize.
+
+
 -   #### Models
 
     -   The `library.db` file should contain 3 tables. Create a Sequelize model for a `books` table, a `patrons` table, and a `loans` table. *There are no `timestamps.`*
