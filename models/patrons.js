@@ -3,14 +3,58 @@ module.exports = (sequelize, DataTypes) => {
   var patrons = sequelize.define('patrons', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
     },
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING,
-    address: DataTypes.STRING,
-    email: DataTypes.STRING,
-    library_id: DataTypes.STRING,
-    zip_code: DataTypes.INTEGER
+    first_name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "First name required!"
+        }
+      }
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "Last name required!"
+        }
+      }
+    },
+    address: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "Address required!"
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "Email required!"
+        }
+      }
+    },
+    library_id: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "Library ID required!"
+        }
+      }
+    },
+    zip_code: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: "Zip code required!"
+        }
+      }
+    }
   }, {
     timestamps: false,
     freezeTableName: true,
