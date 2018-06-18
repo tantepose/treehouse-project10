@@ -27,10 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routing routes
 app.use('/', indexRouter);
 app.use('/books', booksRouter);
-app.use('/patrons', patronsRouter);
-app.use('/loans', loansRouter);
 app.use('/books/new', booksNewRouter);
+app.use('/patrons', patronsRouter);
 app.use('/patrons/new', patronsNewRouter);
+app.use('/loans', loansRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -46,4 +46,34 @@ router.get('/', function(req, res, next) {
   }
 });
 
+// edit book
+router.post('/', function(req, res, next){
+  console.log('redigerer', req.query.id);
+
+  db.books.findById(req.query.id).then(function(book) {
+    if (book) {
+      console.log('REDIGERT', req.query.id);
+      return book.update(req.body);
+    } else {
+      res.send(404);
+    }
+  }).then(function(){
+    res.redirect(303, '../books');   
+  }).catch(function (err) {
+    if (err.name === "SequelizeValidationError"){
+      var book = db.books.build(req.body);
+      book.id = req.query.id;
+      res.render("book_details", {
+        book: book,
+        errors: err.errors
+      });
+    } else {
+      throw err;
+    }
+  }).catch(function () {
+    console.error("Error!");
+    res.send(500);
+  });
+});
+
 module.exports = router;

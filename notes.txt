@@ -1,0 +1,6 @@
+BUGS:
+* kan lage bøker med bokstaver som årstall osv, må ha riktig datatype som required antar jeg
+
+DRY:
+* ta ut errors som jade modul
+* ha ny og redigere i samme modul
