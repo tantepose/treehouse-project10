@@ -9,9 +9,7 @@ router.get('/', function(req, res, next) {
 
 // POST new book, saving to database
 router.post('/', function(req, res, next) {
-  console.log('lager ny patron');
-  db.patrons.create(req.body).then(function(patron) {
-    console.log('patron laget, router til:', patron.id, patron.first_name);
+  db.patrons.create(req.body).then(function() {
     res.redirect(303, '../patrons');
   }).catch(function (err) {
     if (err.name === "SequelizeValidationError"){
@@ -23,7 +21,7 @@ router.post('/', function(req, res, next) {
       throw err;
     }
   }).catch(function(err) {
-    res.send(500);
+    res.sendStatus(500);
   }); 
 }); 
 //mer error handling? se blogg-greia som du lagde med treehouse

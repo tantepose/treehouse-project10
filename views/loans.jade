@@ -3,7 +3,7 @@ extends layout
 block content
     h1 Loans
     p
-        a.button(href='new_loan.html') Create New Loan
+        a.button(href='/loans/new') Create New Loan
     p
         Filters 
         a(href='/loans') All | 
@@ -28,5 +28,6 @@ block content
                     td= loan.loaned_on
                     td= loan.return_by
                     td= loan.returned_on
-                    td
-                        a.button(href='/books?id=' + loan.book.id) Return Book
+                    if !loan.returned_on
+                        td
+                            a.button(href='/loans/return?id=' + loan.id) Return Book

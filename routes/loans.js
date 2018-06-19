@@ -20,8 +20,11 @@ router.get('/', function(req, res, next) {
             {
               model: db.books,
               as: "book"
-            }]
-      
+            }
+          ], 
+          order: [
+            ["loaned_on", "DESC"]
+          ]
         }).then(function (loans) {
           res.render("loans", {loans: loans});
       
@@ -47,8 +50,11 @@ router.get('/', function(req, res, next) {
             {
               model: db.books,
               as: "book"
-            }]
-      
+            }
+          ],
+            order: [
+              ["loaned_on", "DESC"]
+            ]
         }).then(function (loans) {
           res.render("loans", {loans: loans});
       
@@ -61,12 +67,12 @@ router.get('/', function(req, res, next) {
       case 'overdue':
         console.log("*** OVERDUE ***");
 
-        const today = moment().format('YYYY-MM-DD');
+        const today = moment();//.format('YYYY-MM-DD');
         console.log("TODAY:", today);
 
         db.loans.findAll({
           where: {
-            loaned_on: {
+            return_by: {
               [Op.lt]: today
             }
           },

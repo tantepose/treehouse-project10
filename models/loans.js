@@ -7,11 +7,58 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       allowNull: false
     },
-    book_id: DataTypes.INTEGER,
-    patron_id: DataTypes.INTEGER,
-    loaned_on: DataTypes.DATE,
-    return_by: DataTypes.DATE,
-    returned_on: DataTypes.DATE
+    book_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'Book ID required!'
+        },
+        isInt: {
+          msg: 'Book ID must be an integer!'
+        }
+      }
+    },
+    patron_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'Patron ID required!'
+        },
+        isInt: {
+          msg: 'Patron ID must be an integer!'
+        }
+      }
+    },
+    loaned_on: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: {
+          msg: 'Loaned on required!'
+        },
+        isDate: {
+          msg: 'Loaned on must be a valid date! (eg. 2018-05-29)'
+        }
+      }
+    },
+    return_by: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: {
+          msg: 'Return by required!'
+        },
+        isDate: {
+          msg: 'Return by must be a valid date! (eg. 2018-05-29)'
+        }
+      }
+    },
+    returned_on: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        isInt: {
+          msg: 'Loaned on must be a valid date! (eg. 2018-05-29)'
+        }
+      }
+    }
   }, {
     timestamps: false,
     freezeTableName: true,

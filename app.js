@@ -11,6 +11,8 @@ var booksNewRouter = require('./routes/booksNew');
 var patronsRouter = require('./routes/patrons');
 var patronsNewRouter = require('./routes/patronsNew');
 var loansRouter = require('./routes/loans');
+var loansNewRouter = require('./routes/loansNew');
+var loansReturnRouter = require('./routes/loansReturn');
 
 var app = express();
 
@@ -31,6 +33,8 @@ app.use('/books/new', booksNewRouter);
 app.use('/patrons', patronsRouter);
 app.use('/patrons/new', patronsNewRouter);
 app.use('/loans', loansRouter);
+app.use('/loans/new', loansNewRouter);
+app.use('/loans/return', loansReturnRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

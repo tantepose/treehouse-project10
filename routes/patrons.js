@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   console.log("NÅ:", req.query.filter);
   // no patron ID defined (render /patrons root)
   if(!req.query.id) {
-    db.patrons.findAll({order: [["id", "DESC"]]}).then(function(patrons){
+    db.patrons.findAll({order: [["first_name", "ASC"]]}).then(function(patrons){
       res.render("patrons", {patrons: patrons});
     }).catch(function(error){
         console.error("Error:", error);

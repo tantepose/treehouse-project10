@@ -1,5 +1,6 @@
 BUGS:
-* kan lage bøker med bokstaver som årstall osv, må ha riktig datatype som required antar jeg
+* FIXED: kan lage bøker med bokstaver som årstall osv, må ha riktig datatype som required antar jeg
+* datoer er bare krøll overalt
 
 DRY:
 * ta ut errors som jade modul

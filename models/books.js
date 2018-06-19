@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "First published required!"
+        },
+        isInt: {
+          msg: 'First published must be an integer!'
         }
       }
     }
