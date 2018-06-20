@@ -17,7 +17,6 @@ router.get('/', function(req, res, next) {
 
   // patron ID defined (render patrons edit/details)
   else {
-    console.log('PATRON ID:' + req.query.id);
     db.patrons.findOne({
       where: {
         id: req.query.id

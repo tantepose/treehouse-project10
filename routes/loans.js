@@ -1,45 +1,46 @@
 var express = require('express');
 var router = express.Router();
 var Sequelize = require('../models').sequelize;
-
-const Op = Sequelize.Op;
-var moment = require('moment');
 var db = require("../models/index.js");
 
-router.get('/', function(req, res, next) {
-  // check url filter, do apropriate thing
-  switch(req.query.filter) {
-    case undefined: 
-      console.log("*** ROOT ***");
-        db.loans.findAll({
-          include: [
-            {
-              model: db.patrons,
-              as: "patron"
-            },
-            {
-              model: db.books,
-              as: "book"
-            }
-          ], 
-          order: [
-            ["loaned_on", "DESC"]
-          ]
-        }).then(function (loans) {
-          res.render("loans", {loans: loans});
-      
-        }).catch(function(error){
-          console.error("Error:", error);
-          res.send(500, error);
-        });
-    break;
+const Op = Sequelize.Op; // Sequelize operators for queries
+var moment = require('moment'); // generating todays date
 
-    case 'checked_out':
-      console.log("*** CHECKED OUT ***");
+// GET /loans(?filter=) routes
+// check query string parameter and do the right query
+router.get('/', function(req, res, next) {
+    
+    // the /loans root, no filter
+    // get all loans, ordered by loaned_on
+    if (!req.query.filter) {
+      db.loans.findAll({
+        include: [
+          {
+            model: db.patrons,
+            as: "patron"
+          },
+          {
+            model: db.books,
+            as: "book"
+          }
+        ], 
+        order: [
+          ["loaned_on", "DESC"]
+        ]
+      }).then(function (loans) {
+        res.render("loans", {loans: loans});
+      }).catch(function(error){
+        res.send(500, error);
+      });
+    } 
+
+    // the /loans?filter=checked_out route
+    // get loans where returned_on is not empty
+    if (req.query.filter == 'checked_out') {
         db.loans.findAll({
           where: {
             returned_on: {
-              [Op.not]: ''
+              [Op.not]: null
             }
           },
           include: [
@@ -57,24 +58,20 @@ router.get('/', function(req, res, next) {
             ]
         }).then(function (loans) {
           res.render("loans", {loans: loans});
-      
         }).catch(function(error){
-          console.error("Error:", error);
           res.send(500, error);
         });
-      break;
+      }
 
-      case 'overdue':
-        console.log("*** OVERDUE ***");
-
-        const today = moment();//.format('YYYY-MM-DD');
-        console.log("TODAY:", today);
-
+      // ?filter=overdue
+      // get loans where return_on date is before today, and returned_on is null
+      if (req.query.filter == 'overdue') {
         db.loans.findAll({
           where: {
             return_by: {
-              [Op.lt]: today
-            }
+              [Op.lt]: moment()
+            },
+            returned_on: null
           },
           include: [
             {
@@ -85,16 +82,12 @@ router.get('/', function(req, res, next) {
               model: db.books,
               as: "book"
             }]
-      
         }).then(function (loans) {
           res.render("loans", {loans: loans});
-      
         }).catch(function(error){
-          console.error("Error:", error);
           res.send(500, error);
         });
-      break;
-  }
+      }
 });
 
 module.exports = router;

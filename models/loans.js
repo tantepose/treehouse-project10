@@ -54,8 +54,11 @@ module.exports = (sequelize, DataTypes) => {
     returned_on: {
       type: DataTypes.DATEONLY,
       validate: {
-        isInt: {
-          msg: 'Loaned on must be a valid date! (eg. 2018-05-29)'
+        notEmpty: {
+          msg: 'Returned on required!'
+        },
+        isDate: {
+          msg: 'Returned on must be a valid date! (eg. 2018-05-29)'
         }
       }
     }

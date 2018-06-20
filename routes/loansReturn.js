@@ -20,11 +20,9 @@ router.get('/', function(req, res, next) {
           }
         ]
       }).then(function (loan) {
-        var today = moment();
-        loan.returned_on = today;
+        loan.returned_on = moment();
         res.render("loans_return", {loan: loan});
       }).catch(function(error){
-        console.error("Error:", error);
         res.send(500, error);
       });
   });
