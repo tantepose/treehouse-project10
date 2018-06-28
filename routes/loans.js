@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var Sequelize = require('../models').sequelize;
 var db = require("../models/index.js");
 
+var Sequelize = require('../models').sequelize;
 const Op = Sequelize.Op; // Sequelize operators for queries
+
 var moment = require('moment'); // generating todays date
 
 // GET /loans(?filter=) routes
@@ -36,7 +37,7 @@ router.get('/', function(req, res, next) {
 
     // the /loans?filter=checked_out route
     // get loans where returned_on is not empty
-    if (req.query.filter == 'checked_out') {
+    else if (req.query.filter == 'checked_out') {
         db.loans.findAll({
           where: {
             returned_on: {
@@ -65,7 +66,7 @@ router.get('/', function(req, res, next) {
 
       // ?filter=overdue
       // get loans where return_on date is before today, and returned_on is null
-      if (req.query.filter == 'overdue') {
+      else if (req.query.filter == 'overdue') {
         db.loans.findAll({
           where: {
             return_by: {
