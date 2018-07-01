@@ -2,17 +2,21 @@ var express = require('express');
 var router = express.Router();
 var db = require("../models/index.js");
 
-// GET new book page
+// GET /books/new
+// render the new book page
 router.get('/', function(req, res, next) {
   res.render("patrons_new", {patron: db.patrons.build()});
 });
 
-// POST new book, saving to database
+// POST /books/new
+// saving new book to database, with data from request body
 router.post('/', function(req, res, next) {
-  db.patrons.create(req.body).then(function() {
+  db.patrons.create(req.body).then(function () {
     res.redirect(303, '../patrons');
   }).catch(function (err) {
     if (err.name === "SequelizeValidationError"){
+      // input doesn't match the database model
+      // rebuild page with error messages and populate inputs with request body
       res.render("patrons_new", {
         patron: db.patrons.build(req.body),
         errors: err.errors
@@ -20,10 +24,9 @@ router.post('/', function(req, res, next) {
     } else {
       throw err;
     }
-  }).catch(function(err) {
-    res.sendStatus(500);
+  }).catch(function(error) {
+    res.sendStatus(500, error);
   }); 
 }); 
-//mer error handling? se blogg-greia som du lagde med treehouse
 
 module.exports = router;

@@ -3,12 +3,11 @@ var router = express.Router();
 var db = require("../models/index.js");
 
 var moment = require('moment'); // generating todays date
-
 var Sequelize = require('../models').sequelize;
 const Op = Sequelize.Op; // Sequelize operators for queries
 
 // GET all /books routes
-// check query string parameter and do the right query
+// check query string parameter and do the right thing
 router.get('/', function(req, res, next) {
 
   // GET /books
@@ -17,7 +16,7 @@ router.get('/', function(req, res, next) {
     db.books.findAll({order: [["title", "ASC"]]}).then(function(books){
       res.render("books", {books: books});
     }).catch(function(error){
-        res.send(500, error);
+        res.sendStatus(500, error);
     }); 
   } 
   
@@ -26,7 +25,7 @@ router.get('/', function(req, res, next) {
   else if (req.query.id) { 
     const bookID = req.query.id;
 
-    // find rigth book, include all loans
+    // find right book, include all it's loans
     db.books.findById(bookID).then(function (book) {
       db.loans.findAll({
         where: {
@@ -44,10 +43,8 @@ router.get('/', function(req, res, next) {
         ]
       }).then(function (loans) {
           res.render('book_details', {book: book, loans: loans});
-      }).catch(err => {
-        if(err) {
-          res.sendStatus(500);
-        }
+      }).catch(function (error) {
+          res.sendStatus(500, error);
       });
     });
   }
@@ -80,6 +77,8 @@ router.get('/', function(req, res, next) {
       // render all the overdue books
       }).then(function (books) {
         res.render('books', {books: books});
+      }).catch(function (error) {
+        res.sendStatus(500, error);
       });
     });
   }
@@ -112,7 +111,9 @@ router.get('/', function(req, res, next) {
       // render all checked out books
       }).then(function (books) {
         res.render('books', {books: books});
-      });
+      }).catch(function (error) {
+        res.sendStatus(500, error);
+    });;
     });
   }
 });
@@ -124,7 +125,7 @@ router.post('/', function(req, res, next){
     if (book) {
       return book.update(req.body);
     } else {
-      res.send(404);
+      res.sendStatus(404);
     }
   }).then(function(){
     res.redirect(303, '../books');   
@@ -141,8 +142,8 @@ router.post('/', function(req, res, next){
     } else {
       throw err;
     }
-  }).catch(function () {
-    res.send(500);
+  }).catch(function (error) {
+    res.sendStatus(500, error);
   });
 });
 

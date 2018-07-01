@@ -3,7 +3,8 @@ var router = express.Router();
 var db = require("../models/index.js");
 var moment = require('moment');
 
-// GET new loan page
+// GET /loans/new
+// render the new loan page
 router.get('/', function(req, res, next) {
 
     // set up new loan with new dates
@@ -18,18 +19,18 @@ router.get('/', function(req, res, next) {
             res.render("loans_new", {loan: loan, books: books, patrons: patrons});
         });
     }).catch(function(error){
-        res.send(500, error);
+        res.sendStatus(500, error);
     });
 });
 
-// POST the new loan
+// POST /loans/new
+// create new loan in database from request body
 router.post('/', function(req, res, next) {
 
     // build the new loan from the request body (all input)
     db.loans.create(req.body).then(function() {
         res.redirect(303, '../loans');
-    }).catch(function (err) {
-    
+    }).catch(function (err) {    
         // input doesn't match the database model
         // rebuild the page with all required tables and new loan from request body
         if (err.name === "SequelizeValidationError"){
@@ -43,8 +44,6 @@ router.post('/', function(req, res, next) {
                     });
                 });
             });  
-
-        // other errors
         } else {
             throw err;
         }

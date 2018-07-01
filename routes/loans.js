@@ -4,14 +4,13 @@ var db = require("../models/index.js");
 
 var Sequelize = require('../models').sequelize;
 const Op = Sequelize.Op; // Sequelize operators for queries
-
 var moment = require('moment'); // generating todays date
 
-// GET /loans(?filter=) routes
+// GET all /loans routes
 // check query string parameter and do the right query
 router.get('/', function(req, res, next) {
     
-    // the /loans root, no filter
+    // GET /loans root
     // get all loans, ordered by loaned_on
     if (!req.query.filter) {
       db.loans.findAll({
@@ -31,11 +30,11 @@ router.get('/', function(req, res, next) {
       }).then(function (loans) {
         res.render("loans", {loans: loans});
       }).catch(function(error){
-        res.send(500, error);
+        res.sendStatus(500, error);
       });
     } 
 
-    // the /loans?filter=checked_out route
+    // GET /loans?filter=checked_out
     // get loans where returned_on is not empty
     else if (req.query.filter == 'checked_out') {
         db.loans.findAll({
@@ -60,11 +59,11 @@ router.get('/', function(req, res, next) {
         }).then(function (loans) {
           res.render("loans", {loans: loans});
         }).catch(function(error){
-          res.send(500, error);
+          res.sendStatus(500, error);
         });
       }
 
-      // ?filter=overdue
+      // GET /loans?filter=overdue
       // get loans where return_on date is before today, and returned_on is null
       else if (req.query.filter == 'overdue') {
         db.loans.findAll({
@@ -86,7 +85,7 @@ router.get('/', function(req, res, next) {
         }).then(function (loans) {
           res.render("loans", {loans: loans});
         }).catch(function(error){
-          res.send(500, error);
+          res.sendStatus(500, error);
         });
       }
 });

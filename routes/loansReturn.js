@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../models/index.js");
+
 var moment = require('moment');
 
-// GET return book
+// GET /loans/return?id=
+// render return book page, with book from the id query
 router.get('/', function (req, res, next) {
       db.loans.findOne({
         where: {
@@ -20,14 +22,15 @@ router.get('/', function (req, res, next) {
           }
         ]
       }).then(function (loan) {
-        loan.returned_on = moment();
+        loan.returned_on = moment(); // using todays date as default returned on date
         res.render("loans_return", {loan: loan});
       }).catch(function(error){
-        res.send(500, error);
+        res.sendStatus(500, error);
       });
   });
   
-  // POST return book
+  // POST /loans/return?id=
+  // add returned_on date to the loan, from the request body
   router.post('/', function(req, res, next){
     db.loans.findById(req.query.id).then(function (loan) {
       if (loan) {
@@ -63,7 +66,7 @@ router.get('/', function (req, res, next) {
         throw err;
       }
     }).catch(function () {
-      res.send(500);
+      res.sendStatus(500);
     });
   });
 
