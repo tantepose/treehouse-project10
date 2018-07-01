@@ -22,10 +22,4 @@ block content
         p
             input(type='submit', value='Return Book')
 
-    if(errors)
-        div.errors
-            h2 Oh snap, did you forget something?
-            ul
-            each error in errors
-                li
-                    =error.message
+    include error

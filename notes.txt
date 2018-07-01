@@ -1,8 +1,8 @@
 BUGS:
 * FIXED: kan lage bøker med bokstaver som årstall osv, må ha riktig datatype som required antar jeg
 * KAAANSKJE GREIT? datoer er bare krøll overalt
-* fikse error handling på return books
+* FIXED: fikse error handling på return books
 
 DRY:
-* ta ut errors som jade modul
+* FIXED: ta ut errors som jade modul
 * ha ny og redigere i samme modul?

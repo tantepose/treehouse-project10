@@ -19,10 +19,4 @@ block content
         p
             input(type='submit', value='Create')
     
-    if(errors)
-        div.errors
-            h2 Oh snap, did you forget something?
-            ul
-            each error in errors
-                li
-                    =error.message
+    include error

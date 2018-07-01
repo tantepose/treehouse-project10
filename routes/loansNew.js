@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
 
     // get patrons and books for select boxes before rendering
     db.patrons.findAll({order: [["first_name", "ASC"]]}).then(function (patrons) {
-        var patrons = patrons;
         db.books.findAll({order: [["title", "ASC"]]}).then(function (books) {
-            var books = books;
             res.render("loans_new", {loan: loan, books: books, patrons: patrons});
         });
-    }); //husk error handling
+    }).catch(function(error){
+        res.send(500, error);
+    });
 });
 
 // POST the new loan
@@ -31,13 +31,16 @@ router.post('/', function(req, res, next) {
     }).catch(function (err) {
     
         // input doesn't match the database model
-        // rebuild the page with all required tables and populate inputs with request body
+        // rebuild the page with all required tables and new loan from request body
         if (err.name === "SequelizeValidationError"){
             db.patrons.findAll({order: [["first_name", "ASC"]]}).then(function (patrons) {
-                var patrons = patrons;
                 db.books.findAll({order: [["title", "ASC"]]}).then(function (books) {
-                    var books = books;
-                    res.render("loans_new", {loan: db.loans.build(req.body), books: books, patrons: patrons, errors: err.errors});
+                    res.render("loans_new", {
+                        loan: db.loans.build(req.body), 
+                        books: books, 
+                        patrons: patrons, 
+                        errors: err.errors
+                    });
                 });
             });  
 
